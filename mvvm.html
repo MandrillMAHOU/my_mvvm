@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>MVVM</title>
+  <style>
+    body {
+      margin: 20px;
+    }
+    div, p, button {
+      margin: 20px 0;
+    }
+    button {
+      display: block;
+    }
+    .img-container {
+      display: flex;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <!-- interpolation 1 -->
+      <p>{{ message }}</p>
+      <!-- 2 nested interpolations inside 1 text node  -->
+      <p>{{ name.first }} {{ name.last }}</p>
+    </div>
+    <p v-html="htmlStr"></p>
+    <div class="input-container">
+      v-model: <input type="text" v-model="inputVal" />
+    </div>
+    <div v-bind:style="styleStr">v-bind on style</div>
+    <div class="img-container">
+      v-bind on src: <img v-bind:src="imgUrl" alt="test img" width="200" height="150">
+    </div>
+    <button v-on:click="changeImgUrl">Click to change imgUrl</button>
+    <button v-on:click="printInfo('this is info', message, { name: 'rose' }, 100, inputVal)">Print in console</button>
+  </div>
+<script src="./observer.js"></script>
+<script src="./watcher.js"></script>
+<script src="./compile.js"></script>
+<script src="./mvvm.js"></script>
+<script>
+  var vm = new MVVM({
+    el: '#app',
+    data: {
+      message: 'Hello World',
+      name: { first: 'John', last: 'Doe' },
+      htmlStr: 'This is the <strong>content inserted using v-html</strong>',
+      inputVal: 'input test',
+      styleStr: 'color: #552583; background: #fdb927;',
+      imgUrl: './img/1.jpeg',
+    },
+    methods: {
+      changeImgUrl() {
+        if (this.imgUrl.includes('1')) {
+          this.imgUrl = './img/2.jpeg';
+        } else {
+          this.imgUrl = './img/1.jpeg';
+        }
+      },
+      printInfo(...args) {
+        console.log(args);
+      }
+    }
+  });
+</script>
+</body>
+</html>
